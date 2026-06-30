@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Gemini AI App</title>
+  <title>Gemini Image Analyzer</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
   <div class="container">
-    <h1>Gemini AI Web App</h1>
+    <h1>AI Image Analyzer</h1>
 
-    <textarea id="input" placeholder="Ask something..."></textarea>
+    <input type="file" id="imageInput" accept="image/*" />
 
-    <button onclick="runGemini()">Send</button>
+    <button onclick="analyzeImage()">Analyze Image</button>
 
     <div id="status"></div>
 

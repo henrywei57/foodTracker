@@ -1,13 +1,18 @@
-const FIXED_PROMPT = "Analyze this image of my food and tell me the calorie and protein.";
+const API_KEY = "AQ.Ab8RN6KWNQXllfhguIcMDpa8T0K7qcm4wpuLODbUpFafE7C_Zw"; // ⚠️ replace this
 
-async function uploadToGemini(file) {
-  const reader = new FileReader();
+async function runGemini() {
+  const input = document.getElementById("input").value;
+  const output = document.getElementById("output");
+  const status = document.getElementById("status");
 
-  reader.onload = async function () {
-    const base64 = reader.result.split(",")[1];
+  if (!input) return;
 
+  output.innerText = "";
+  status.innerText = "Thinking...";
+
+  try {
     const res = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AQ.Ab8RN6KWNQXllfhguIcMDpa8T0K7qcm4wpuLODbUpFafE7C_Zw",
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + API_KEY,
       {
         method: "POST",
         headers: {
@@ -16,15 +21,7 @@ async function uploadToGemini(file) {
         body: JSON.stringify({
           contents: [
             {
-              parts: [
-                { text: FIXED_PROMPT },
-                {
-                  inline_data: {
-                    mime_type: file.type,
-                    data: base64
-                  }
-                }
-              ]
+              parts: [{ text: input }]
             }
           ]
         })
@@ -33,9 +30,13 @@ async function uploadToGemini(file) {
 
     const data = await res.json();
 
-    document.getElementById("output").innerText =
-      data.candidates[0].content.parts[0].text;
-  };
+    const text = data.candidates[0].content.parts[0].text;
 
-  reader.readAsDataURL(file);
+    output.innerText = text;
+    status.innerText = "";
+
+  } catch (err) {
+    status.innerText = "Error occurred";
+    output.innerText = err.message;
+  }
 }

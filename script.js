@@ -1,7 +1,7 @@
-const API_KEY = "AQ.Ab8RN6KWNQXllfhguIcMDpa8T0K7qcm4wpuLODbUpFafE7C_Zw"; // ⚠️ put your key here
+const API_KEY = "AQ.Ab8RN6IZ1hMdeXv5mdhc0OLkMwuTVUlbZEt0Ztt89DlFGv2kEA"; // ⚠️ put your Gemini key here
 
-// 🔥 FIXED PROMPT (you said no custom prompt)
-const FIXED_PROMPT = "Analyze this image's food and output in this format 'Calories: [] Protein: [].";
+// 🔥 fixed prompt (no user input needed)
+const FIXED_PROMPT = "Analyze this image in detail and explain what is happening.";
 
 async function analyzeImage() {
   const file = document.getElementById("imageInput").files[0];
@@ -13,7 +13,9 @@ async function analyzeImage() {
     return;
   }
 
-  status.innerText = "Analyzing...";
+  // ⏳ LOADING STATE
+  status.innerText = "⏳ Loading... analyzing image";
+  output.innerText = "";
 
   const reader = new FileReader();
 
@@ -50,11 +52,12 @@ async function analyzeImage() {
 
       const text = data.candidates[0].content.parts[0].text;
 
-      output.innerText = text;
+      // ✅ DONE LOADING
       status.innerText = "";
+      output.innerText = text;
 
     } catch (err) {
-      status.innerText = "Error occurred";
+      status.innerText = "❌ Error occurred";
       output.innerText = err.message;
     }
   };

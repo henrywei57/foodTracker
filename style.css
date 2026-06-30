@@ -1,5 +1,5 @@
 body {
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   background: #0f172a;
   color: white;
   display: flex;
@@ -47,4 +47,5 @@ button:hover {
 #status {
   margin-top: 10px;
   color: #facc15;
+  font-weight: bold;
 }
